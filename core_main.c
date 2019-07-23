@@ -86,11 +86,13 @@ char *mem_name[3] = {"Static","Heap","Stack"};
 */
 
 #if MAIN_HAS_NOARGC
-MAIN_RETURN_TYPE main(void) {
+MAIN_RETURN_TYPE coremark_main(void) {
 	int argc=0;
 	char *argv[1];
 #else
-MAIN_RETURN_TYPE main(int argc, char *argv[]) {
+MAIN_RETURN_TYPE coremark_main(void *arguments) {
+	int argc = 6;
+	char **argv = (char **) arguments;
 #endif
 	ee_u16 i,j=0,num_algorithms=0;
 	ee_s16 known_id=-1,total_errors=0;
@@ -100,6 +102,8 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 #if (MEM_METHOD==MEM_STACK)
 	ee_u8 stack_memblock[TOTAL_DATA_SIZE*MULTITHREAD];
 #endif
+	for (i = 0; i < argc; i++)
+		printf("argv[%d] = '%s'\n", i, argv[i]);
 	/* first call any initializations needed */
 	portable_init(&(results[0].port), &argc, argv);
 	/* First some checks to make sure benchmark will run ok */
@@ -115,6 +119,7 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 	results[0].iterations=1;
 #endif
 	results[0].execs=get_seed_32(5);
+	results[0].execs=ALL_ALGORITHMS_MASK;
 	if (results[0].execs==0) { /* if not supplied, execute all algorithms */
 		results[0].execs=ALL_ALGORITHMS_MASK;
 	}
@@ -144,6 +149,7 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 		else
 			results[i].size=TOTAL_DATA_SIZE;
 		results[i].memblock[0]=portable_malloc(results[i].size);
+		printf("malloc(%d) = %p\n", results[i].size, results[i].memblock[0]);
 		results[i].seed1=results[0].seed1;
 		results[i].seed2=results[0].seed2;
 		results[i].seed3=results[0].seed3;

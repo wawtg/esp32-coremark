@@ -19,6 +19,7 @@ Original Author: Shay Gal-on
 /* Topic: Description
 	This file contains  declarations of the various benchmark functions.
 */
+#define CORE_DEBUG 1
 
 /* Configuration: TOTAL_DATA_SIZE
 	Define total size for data algorithms will operate on

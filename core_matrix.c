@@ -85,6 +85,7 @@ ee_u16 core_bench_matrix(mat_params *p, ee_s16 seed, ee_u16 crc) {
 	MATDAT *B=p->B;
 	MATDAT val=(MATDAT)seed;
 
+	printf ("A=%p, B=%p, C=%p\n", A, B, C);
 	crc=crc16(matrix_test(N,C,A,B,val),crc);
 
 	return crc;
@@ -196,6 +197,7 @@ ee_u32 core_init_matrix(ee_u32 blksize, void *memblk, ee_s32 seed, mat_params *p
 	p->B=B;
 	p->C=(MATRES *)align_mem(B+N*N);
 	p->N=N;
+	printf("A=%p, B=%p, C=%p\n", A, B, p->C);
 #if CORE_DEBUG
 	printmat(A,N,"A");
 	printmat(B,N,"B");
@@ -253,6 +255,7 @@ void matrix_add_const(ee_u32 N, MATDAT *A, MATDAT val) {
 	ee_u32 i,j;
 	for (i=0; i<N; i++) {
 		for (j=0; j<N; j++) {
+			printf("&A[%d,%d] = %p\n", i, j, A + i*N+j);
 			A[i*N+j] += val;
 		}
 	}
