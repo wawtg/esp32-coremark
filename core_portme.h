@@ -16,11 +16,12 @@ limitations under the License.
 Original Author: Shay Gal-on
 */
 
-/* Topic: Description
-	This file contains configuration constants required to execute on different platforms
-*/
 #ifndef CORE_PORTME_H
 #define CORE_PORTME_H
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 /************************/
 /* Data types and settings */
 /************************/
@@ -81,7 +82,7 @@ typedef clock_t CORE_TICKS;
  #endif
 #endif
 #ifndef COMPILER_FLAGS 
- #define COMPILER_FLAGS FLAGS_STR /* "Please put compiler flags here (e.g. -o3)" */
+ #define COMPILER_FLAGS "" /* "Please put compiler flags here (e.g. -o3)" */
 #endif
 #ifndef MEM_LOCATION 
  #define MEM_LOCATION "Please put data memory location here\n\t\t\t(e.g. code in flash, data on heap etc)"
@@ -97,12 +98,14 @@ typedef clock_t CORE_TICKS;
 typedef signed short ee_s16;
 typedef unsigned short ee_u16;
 typedef signed int ee_s32;
-typedef double ee_f32;
+typedef float ee_f32;
 typedef unsigned char ee_u8;
 typedef unsigned int ee_u32;
-typedef unsigned long long ee_ptr_int;
+typedef ee_u32 ee_ptr_int;
 typedef size_t ee_size_t;
-/* align an offset to point to a 32b value */
+/* align_mem:
+	This macro is used to align an offset to point to a 32b value. It is used in the Matrix algorithm to initialize the input memory blocks.
+*/
 #define align_mem(x) (void *)(4 + (((ee_ptr_int)(x) - 1) & ~3))
 
 /* Configuration: SEED_METHOD

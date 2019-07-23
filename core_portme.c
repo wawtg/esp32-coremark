@@ -19,6 +19,9 @@ Original Author: Shay Gal-on
 #include <stdio.h>
 #include <stdlib.h>
 #include "coremark.h"
+
+#define PRINT_ARGS 1
+
 #if CALLGRIND_RUN
 #include <valgrind/callgrind.h>
 #endif
